@@ -236,12 +236,12 @@ public class DefaultDispatcherResourceManagerComponentFactory
             dispatcherLeaderRetrievalService.start(dispatcherGatewayRetriever);
 
             return new DispatcherResourceManagerComponent(
-                    dispatcherRunner,
+                    dispatcherRunner,//dispatcher启动器
                     resourceManagerService,
-                    dispatcherLeaderRetrievalService,
+                    dispatcherLeaderRetrievalService,//监听器
                     resourceManagerRetrievalService,
-                    webMonitorEndpoint,
-                    fatalErrorHandler,
+                    webMonitorEndpoint,//netty服务
+                    fatalErrorHandler,//异常处理器 调用onFatalError方法
                     dispatcherOperationCaches);
 
         } catch (Exception exception) {
