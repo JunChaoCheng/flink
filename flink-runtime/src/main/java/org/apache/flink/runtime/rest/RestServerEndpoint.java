@@ -177,6 +177,7 @@ public abstract class RestServerEndpoint implements RestService {
             final Router router = new Router();
             final CompletableFuture<String> restAddressFuture = new CompletableFuture<>();
 
+            //初始化一堆netty的handler和ds里面差不多
             handlers = initializeHandlers(restAddressFuture);
 
             /* sort the handlers such that they are ordered the following:
@@ -189,6 +190,9 @@ public abstract class RestServerEndpoint implements RestService {
             Collections.sort(handlers, RestHandlerUrlComparator.INSTANCE);
 
             checkAllEndpointsAndHandlersAreUnique(handlers);
+            //把handler和router的映射关系放到route对象中的map中
+            //flink用服务之间通过netty封装的http请求交互
+            //这里其实就是把不同的请求类型Get、Post.. 配置不同的handler
             handlers.forEach(handler -> registerHandler(router, handler, log));
 
             ChannelInitializer<SocketChannel> initializer =
@@ -279,7 +283,7 @@ public abstract class RestServerEndpoint implements RestService {
 
             if (serverChannel == null) {
                 throw new BindException(
-                        "Could not start rest endpoint on any port in port range "
+                        "Could not start rest endNpoint on any port in port range "
                                 + restBindPortRange);
             }
 

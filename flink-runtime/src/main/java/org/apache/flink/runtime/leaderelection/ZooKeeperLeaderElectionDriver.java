@@ -108,8 +108,9 @@ public class ZooKeeperLeaderElectionDriver implements LeaderElectionDriver, Lead
                         this::retrieveLeaderInformationFromZooKeeper);
 
         running = true;
-
+        //添加监听器 成功和失败分别回调isLeader和notLeader方法
         leaderLatch.addListener(this);
+        //开启选举
         leaderLatch.start();
 
         cache.start();

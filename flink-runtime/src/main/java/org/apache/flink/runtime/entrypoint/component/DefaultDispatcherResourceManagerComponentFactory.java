@@ -101,6 +101,10 @@ public class DefaultDispatcherResourceManagerComponentFactory
     }
 
     @Override
+    /* @author Junchao
+    * @date 9:57 2023/3/28
+    * 组件启动流程1.初始化 2.启动 以WebMonitorEndpoint为例
+    **/
     public DispatcherResourceManagerComponent create(
             Configuration configuration,
             ResourceID resourceId,
@@ -161,7 +165,10 @@ public class DefaultDispatcherResourceManagerComponentFactory
                                     metricQueryServiceRetriever,
                                     dispatcherGatewayRetriever,
                                     executor);
-
+            //RestServerEndpoint接口 逻辑
+            //webMonitorEndpoint 实现类
+            //DispatcherRestEndpoint 最终实现类
+            //1.初始化
             webMonitorEndpoint =
                     restEndpointFactory.createRestEndpoint(
                             configuration,
@@ -174,10 +181,13 @@ public class DefaultDispatcherResourceManagerComponentFactory
                             fatalErrorHandler);
 
             log.debug("Starting Dispatcher REST endpoint.");
+            //2.启动
             webMonitorEndpoint.start();
 
             final String hostname = RpcUtils.getHostname(rpcService);
 
+            //1.创建resourceManagerService 封装了factory和context后面直接用
+            //在后面start的时候创建
             resourceManagerService =
                     ResourceManagerServiceImpl.create(
                             resourceManagerFactory,
@@ -290,6 +300,10 @@ public class DefaultDispatcherResourceManagerComponentFactory
         }
     }
 
+    /* @author Junchao
+    * @date 9:53 2023/3/28
+    *初始化三个组件的工厂实例
+    **/
     public static DefaultDispatcherResourceManagerComponentFactory createSessionComponentFactory(
             ResourceManagerFactory<?> resourceManagerFactory) {
         return new DefaultDispatcherResourceManagerComponentFactory(

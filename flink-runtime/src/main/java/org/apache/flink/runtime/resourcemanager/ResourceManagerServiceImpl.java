@@ -117,7 +117,7 @@ public class ResourceManagerServiceImpl implements ResourceManagerService, Leade
         }
 
         LOG.info("Starting resource manager service.");
-
+        //使用通用的leader选举方法 开启ha服务 DefaultLeaderElectionService
         leaderElectionService.start(this);
     }
 

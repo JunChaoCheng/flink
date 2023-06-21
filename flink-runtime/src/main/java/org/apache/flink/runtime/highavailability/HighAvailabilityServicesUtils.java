@@ -87,7 +87,7 @@ public class HighAvailabilityServicesUtils {
             Configuration configuration, Executor executor, FatalErrorHandler fatalErrorHandler)
             throws Exception {
         BlobStoreService blobStoreService = BlobUtils.createBlobStoreFromConfig(configuration);
-
+        //连接到zookeeper 返回一个监听对象
         final CuratorFrameworkWithUnhandledErrorListener curatorFrameworkWrapper =
                 ZooKeeperUtils.startCuratorFramework(configuration, fatalErrorHandler);
 
@@ -134,6 +134,7 @@ public class HighAvailabilityServicesUtils {
                 return new StandaloneHaServices(
                         resourceManagerRpcUrl, dispatcherRpcUrl, webMonitorAddress);
             case ZOOKEEPER:
+                //在此注册 往里点
                 return createZooKeeperHaServices(configuration, executor, fatalErrorHandler);
             case KUBERNETES:
                 return createCustomHAServices(

@@ -279,16 +279,18 @@ public abstract class ClusterEntrypoint implements AutoCloseableAsync, FatalErro
     private void runCluster(Configuration configuration, PluginManager pluginManager)
             throws Exception {
         synchronized (lock) {
+            //初始化一堆基础组件(包括注册到注册中心)
             initializeServices(configuration, pluginManager);
 
             // write host information into configuration
             configuration.setString(JobManagerOptions.ADDRESS, commonRpcService.getAddress());
             configuration.setInteger(JobManagerOptions.PORT, commonRpcService.getPort());
 
+            //初始化三个组件的工厂
             final DispatcherResourceManagerComponentFactory
                     dispatcherResourceManagerComponentFactory =
                             createDispatcherResourceManagerComponentFactory(configuration);
-
+            //通过工厂初始化组件
             clusterComponent =
                     dispatcherResourceManagerComponentFactory.create(
                             configuration,
@@ -379,7 +381,9 @@ public abstract class ClusterEntrypoint implements AutoCloseableAsync, FatalErro
                     Executors.newFixedThreadPool(
                             ClusterEntrypointUtils.getPoolSize(configuration),
                             new ExecutorThreadFactory("cluster-io"));
+            //注册到注册中心
             haServices = createHaServices(configuration, ioExecutor, rpcSystem);
+            //创建元数据存储服务
             blobServer =
                     BlobUtils.createBlobServer(
                             configuration,

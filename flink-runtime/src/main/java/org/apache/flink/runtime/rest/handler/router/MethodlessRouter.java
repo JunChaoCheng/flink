@@ -42,6 +42,10 @@ final class MethodlessRouter<T> {
     private static final Logger log = LoggerFactory.getLogger(MethodlessRouter.class);
 
     // A path pattern can only point to one target
+    /* @author Junchao
+    * @date 9:29 2023/3/28
+    *url和处理器的map
+    **/
     private final Map<PathPattern, T> routes = new LinkedHashMap<>();
 
     // --------------------------------------------------------------------------

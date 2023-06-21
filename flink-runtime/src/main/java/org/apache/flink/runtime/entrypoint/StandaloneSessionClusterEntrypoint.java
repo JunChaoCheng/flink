@@ -51,11 +51,12 @@ public class StandaloneSessionClusterEntrypoint extends SessionClusterEntrypoint
                         args,
                         new EntrypointClusterConfigurationParserFactory(),
                         StandaloneSessionClusterEntrypoint.class);
+        //读取flink-conf.yaml
         Configuration configuration = loadConfiguration(entrypointClusterConfiguration);
 
         StandaloneSessionClusterEntrypoint entrypoint =
                 new StandaloneSessionClusterEntrypoint(configuration);
-
+        //启动集群
         ClusterEntrypoint.runClusterEntrypoint(entrypoint);
     }
 }

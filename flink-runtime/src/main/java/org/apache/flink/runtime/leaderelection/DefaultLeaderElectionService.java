@@ -89,6 +89,7 @@ public class DefaultLeaderElectionService
         synchronized (lock) {
             running = true;
             leaderContender = contender;
+            //调用不同注册中心的选举方法进行ha服务启动和监听 默认使用zookeeper
             leaderElectionDriver =
                     leaderElectionDriverFactory.createLeaderElectionDriver(
                             this,

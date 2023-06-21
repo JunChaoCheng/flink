@@ -271,6 +271,7 @@ public class ZooKeeperUtils {
             curatorFrameworkBuilder.connectionStateErrorPolicy(
                     new SessionConnectionStateErrorPolicy());
         }
+        //这里继续点
         return startCuratorFramework(curatorFrameworkBuilder, fatalErrorHandler);
     }
 
